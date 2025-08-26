@@ -15,6 +15,13 @@ import java.util.concurrent.atomic.AtomicInteger
 data class Picture(val url: String, val description: String)
 
 @Serializable
+data class Review(
+    val user: String,
+    val comment: String,
+    val rating: Double
+)
+
+@Serializable
 data class Clothes(
     var id: Int,
     var picture: Picture,
@@ -22,23 +29,220 @@ data class Clothes(
     var category: String,
     var likes: Int,
     var price: Double,
-    var original_price: Double
-)
+    var original_price: Double,
+    var description: String,
+    var reviews: MutableList<Review> = mutableListOf() // list of reviews
+){
+    val rating: Double
+        get() = if (reviews.isNotEmpty()) reviews.map { it.rating }.average() else 0.0
+}
 
 // Starter JSON (full, from your example)
 val clothesList = mutableListOf(
-    Clothes(0, Picture("https://raw.githubusercontent.com/OpenClassrooms-Student-Center/D-velopper-une-interface-accessible-en-Jetpack-Compose/main/img/accessories/1.jpg", "Sac à main orange posé sur une poignée de porte"), "Sac à main orange", "ACCESSORIES", 56, 69.99, 69.99),
-    Clothes(1, Picture("https://raw.githubusercontent.com/OpenClassrooms-Student-Center/D-velopper-une-interface-accessible-en-Jetpack-Compose/main/img/bottoms/1.jpg", "Modèle femme qui porte un jean et un haut jaune"), "Jean pour femme", "BOTTOMS", 55, 49.99, 59.99),
-    Clothes(2, Picture("https://raw.githubusercontent.com/OpenClassrooms-Student-Center/D-velopper-une-interface-accessible-en-Jetpack-Compose/main/img/shoes/1.jpg", "Modèle femme qui pose dans la rue en bottes de pluie noires"), "Bottes noires pour l'automne", "SHOES", 4, 99.99, 119.99),
-    Clothes(3, Picture("https://raw.githubusercontent.com/OpenClassrooms-Student-Center/D-velopper-une-interface-accessible-en-Jetpack-Compose/main/img/tops/1.jpg", "Homme en costume et veste de blazer qui regarde la caméra"), "Blazer marron", "TOPS", 15, 79.99, 79.99),
-    Clothes(4, Picture("https://raw.githubusercontent.com/OpenClassrooms-Student-Center/D-velopper-une-interface-accessible-en-Jetpack-Compose/main/img/tops/2.jpg", "Femme dehors qui pose avec un pull en maille vert"), "Pull vert femme", "TOPS", 15, 29.99, 39.99),
-    Clothes(5, Picture("https://raw.githubusercontent.com/OpenClassrooms-Student-Center/D-velopper-une-interface-accessible-en-Jetpack-Compose/main/img/shoes/2.jpg", "Escarpins rouges posés sur du marbre"), "Escarpins de soirée", "SHOES", 15, 139.99, 139.99),
-    Clothes(6, Picture("https://raw.githubusercontent.com/OpenClassrooms-Student-Center/D-velopper-une-interface-accessible-en-Jetpack-Compose/main/img/accessories/2.jpg", "Sac d'aventurier usé accroché dans un arbre en forêt"), "Sac à dos d'aventurier", "ACCESSORIES", 9, 69.99, 99.99),
-    Clothes(7, Picture("https://raw.githubusercontent.com/OpenClassrooms-Student-Center/D-velopper-une-interface-accessible-en-Jetpack-Compose/main/img/tops/3.jpg", "Homme jeune stylé en jean et bomber qui pose dans la rue"), "Bomber automnal pour homme", "TOPS", 30, 89.99, 109.99),
-    Clothes(8, Picture("https://raw.githubusercontent.com/OpenClassrooms-Student-Center/D-velopper-une-interface-accessible-en-Jetpack-Compose/main/img/tops/4.jpg", "Homme en sweat jaune qui regarde à droite"), "Sweat jaune", "TOPS", 6, 39.99, 39.99),
-    Clothes(9, Picture("https://raw.githubusercontent.com/OpenClassrooms-Student-Center/D-velopper-une-interface-accessible-en-Jetpack-Compose/main/img/tops/5.jpg", "T-shirt rose posé sur un cintre dans une penderie"), "T-shirt casual rose", "TOPS", 35, 29.99, 29.99),
-    Clothes(10, Picture("https://raw.githubusercontent.com/OpenClassrooms-Student-Center/D-velopper-une-interface-accessible-en-Jetpack-Compose/main/img/accessories/3.jpg", "Pendentif rond bleu dans la main d'une femme"), "Pendentif bleu pour femme", "ACCESSORIES", 70, 19.99, 69.99),
-    Clothes(11, Picture("https://raw.githubusercontent.com/OpenClassrooms-Student-Center/D-velopper-une-interface-accessible-en-Jetpack-Compose/main/img/bottoms/2.jpg", "Homme en chemise blanche et pantalon noir assis dans la forêt"), "Pantalon noir", "BOTTOMS", 54, 49.99, 69.99)
+    Clothes(
+        0,
+        Picture(
+            "https://raw.githubusercontent.com/OpenClassrooms-Student-Center/D-velopper-une-interface-accessible-en-Jetpack-Compose/main/img/accessories/1.jpg",
+            "Orange handbag placed on a door handle"
+        ),
+        "Orange Handbag",
+        "ACCESSORIES",
+        56,
+        69.99,
+        69.99,
+        description = "An elegant orange handbag hanging on a door handle, stylish design, compact yet spacious, perfect for daily outings or casual events.",
+        reviews = mutableListOf(
+            Review("Alice", "Great bag, very practical!", 4.5),
+            Review("Bob", "Color is a bit flashy but nice.", 4.0)
+        )
+    ),
+    Clothes(
+        1,
+        Picture(
+            "https://raw.githubusercontent.com/OpenClassrooms-Student-Center/D-velopper-une-interface-accessible-en-Jetpack-Compose/main/img/bottoms/1.jpg",
+            "Woman wearing jeans and yellow top"
+        ),
+        "Women’s Jeans",
+        "BOTTOMS",
+        55,
+        49.99,
+        59.99,
+        description = "Women’s blue jeans paired with a yellow top, slim fit, casual yet fashionable, ideal for everyday wear or social outings.",
+        reviews = mutableListOf(
+            Review("Clara", "Very comfortable jeans.", 5.0),
+            Review("David", "Size runs a bit small.", 3.5)
+        )
+    ),
+    Clothes(
+        2,
+        Picture(
+            "https://raw.githubusercontent.com/OpenClassrooms-Student-Center/D-velopper-une-interface-accessible-en-Jetpack-Compose/main/img/shoes/1.jpg",
+            "Woman posing on the street wearing black rain boots"
+        ),
+        "Black Rain Boots",
+        "SHOES",
+        4,
+        99.99,
+        119.99,
+        description = "Black rain boots worn by a woman on the street, sleek design, waterproof, comfortable for autumn walks and rainy days.",
+        reviews = mutableListOf(
+            Review("Eva", "Stylish and comfortable.", 4.8),
+            Review("Frank", "A bit heavy for long walks.", 3.8)
+        )
+    ),
+    Clothes(
+        3,
+        Picture(
+            "https://raw.githubusercontent.com/OpenClassrooms-Student-Center/D-velopper-une-interface-accessible-en-Jetpack-Compose/main/img/tops/1.jpg",
+            "Man in suit and blazer looking at the camera"
+        ),
+        "Brown Blazer",
+        "TOPS",
+        15,
+        79.99,
+        79.99,
+        description = "Brown blazer on a man in a suit, formal style, tailored fit, ideal for office, meetings, or professional events.",
+        reviews = mutableListOf(
+            Review("George", "Elegant blazer, well tailored.", 5.0),
+            Review("Hannah", "Fabric is a bit stiff.", 4.2)
+        )
+    ),
+    Clothes(
+        4,
+        Picture(
+            "https://raw.githubusercontent.com/OpenClassrooms-Student-Center/D-velopper-une-interface-accessible-en-Jetpack-Compose/main/img/tops/2.jpg",
+            "Woman posing outside wearing green knitted sweater"
+        ),
+        "Green Sweater",
+        "TOPS",
+        15,
+        29.99,
+        39.99,
+        description = "Green knitted sweater worn by a woman outside, warm and cozy, casual style, perfect for chilly autumn and winter days.",
+        reviews = mutableListOf(
+            Review("Isabel", "Soft and warm.", 4.7),
+            Review("Jack", "Color matches the photo perfectly.", 4.9)
+        )
+    ),
+    Clothes(
+        5,
+        Picture(
+            "https://raw.githubusercontent.com/OpenClassrooms-Student-Center/D-velopper-une-interface-accessible-en-Jetpack-Compose/main/img/shoes/2.jpg",
+            "Red high-heeled shoes on marble"
+        ),
+        "Red Heels",
+        "SHOES",
+        15,
+        139.99,
+        139.99,
+        description = "Red high-heeled shoes placed on marble, elegant evening footwear, chic design, suitable for parties, formal events, or stylish occasions.",
+        reviews = mutableListOf(
+            Review("Karen", "Very chic but heels are a bit high.", 4.0),
+            Review("Leo", "Perfect for an evening out!", 5.0)
+        )
+    ),
+    Clothes(
+        6,
+        Picture(
+            "https://raw.githubusercontent.com/OpenClassrooms-Student-Center/D-velopper-une-interface-accessible-en-Jetpack-Compose/main/img/accessories/2.jpg",
+            "Worn adventurer backpack hanging from tree in forest"
+        ),
+        "Adventurer’s Backpack",
+        "ACCESSORIES",
+        9,
+        69.99,
+        99.99,
+        description = "Worn-out adventurer’s backpack hanging from a tree in the forest, rugged, spacious, practical for hiking, camping, or outdoor adventures.",
+        reviews = mutableListOf(
+            Review("Mona", "Very practical for hiking.", 4.6),
+            Review("Nate", "A bit small for my gear.", 3.9)
+        )
+    ),
+    Clothes(
+        7,
+        Picture(
+            "https://raw.githubusercontent.com/OpenClassrooms-Student-Center/D-velopper-une-interface-accessible-en-Jetpack-Compose/main/img/tops/3.jpg",
+            "Young stylish man wearing jeans and bomber posing on street"
+        ),
+        "Autumn Bomber Jacket",
+        "TOPS",
+        30,
+        89.99,
+        109.99,
+        description = "Stylish autumn bomber jacket on a young man, casual outfit, comfortable fit, suitable for street style, outdoor walks, and seasonal fashion.",
+        reviews = mutableListOf(
+            Review("Olivia", "Very trendy.", 4.8),
+            Review("Paul", "Color a bit too dark.", 4.1)
+        )
+    ),
+    Clothes(
+        8,
+        Picture(
+            "https://raw.githubusercontent.com/OpenClassrooms-Student-Center/D-velopper-une-interface-accessible-en-Jetpack-Compose/main/img/tops/4.jpg",
+            "Man in yellow sweatshirt looking right"
+        ),
+        "Yellow Sweatshirt",
+        "TOPS",
+        6,
+        39.99,
+        39.99,
+        description = "Yellow sweatshirt on a man looking right, casual and comfortable, lightweight, ideal for spring, autumn, or everyday relaxed wear.",
+        reviews = mutableListOf(
+            Review("Quincy", "Comfortable and light.", 4.5),
+            Review("Rachel", "A bit thin for winter.", 3.9)
+        )
+    ),
+    Clothes(
+        9,
+        Picture(
+            "https://raw.githubusercontent.com/OpenClassrooms-Student-Center/D-velopper-une-interface-accessible-en-Jetpack-Compose/main/img/tops/5.jpg",
+            "Pink casual T-shirt hanging on a hanger"
+        ),
+        "Pink Casual T-Shirt",
+        "TOPS",
+        35,
+        29.99,
+        29.99,
+        description = "Pink casual T-shirt hanging on a hanger, soft cotton fabric, perfect for summer days, relaxed style, and daily comfortable outfits.",
+        reviews = mutableListOf(
+            Review("Steve", "Soft and pleasant fabric.", 4.7),
+            Review("Tina", "Perfect for summer.", 4.9)
+        )
+    ),
+    Clothes(
+        10,
+        Picture(
+            "https://raw.githubusercontent.com/OpenClassrooms-Student-Center/D-velopper-une-interface-accessible-en-Jetpack-Compose/main/img/accessories/3.jpg",
+            "Round blue pendant in woman’s hand"
+        ),
+        "Blue Pendant",
+        "ACCESSORIES",
+        70,
+        19.99,
+        69.99,
+        description = "Round blue pendant held in a woman’s hand, elegant accessory, delicate design, suitable for casual or formal occasions, adds charm.",
+        reviews = mutableListOf(
+            Review("Uma", "Very pretty pendant.", 5.0),
+            Review("Victor", "A bit light.", 4.3)
+        )
+    ),
+    Clothes(
+        11,
+        Picture(
+            "https://raw.githubusercontent.com/OpenClassrooms-Student-Center/D-velopper-une-interface-accessible-en-Jetpack-Compose/main/img/bottoms/2.jpg",
+            "Man in white shirt and black trousers sitting in forest"
+        ),
+        "Black Trousers",
+        "BOTTOMS",
+        54,
+        49.99,
+        69.99,
+        description = "Black trousers worn by a man sitting in the forest, tailored fit, versatile fashion piece, perfect for formal or semi-casual wear.",
+        reviews = mutableListOf(
+            Review("Wendy", "Well tailored.", 4.6),
+            Review("Xavier", "A bit expensive for the quality.", 3.8)
+        )
+    )
 )
 
 val nextId = AtomicInteger(clothesList.size)
