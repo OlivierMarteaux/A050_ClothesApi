@@ -1,0 +1,11 @@
+# Use OpenJDK 17 Alpine for lightweight image
+FROM openjdk:17-jdk-alpine
+
+# Copy the fat JAR produced by Gradle
+COPY ./build/libs/A050_ClothesApi-all.jar /app.jar
+
+# Expose the port your Ktor server listens on
+EXPOSE 8080
+
+# Run the app
+ENTRYPOINT ["java", "-jar", "/app.jar"]
