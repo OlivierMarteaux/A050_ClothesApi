@@ -18,7 +18,8 @@ data class Picture(val url: String, val description: String)
 data class Review(
     val user: String,
     val comment: String,
-    val rating: Double
+    val rating: Int,
+    val like: Boolean
 )
 
 @Serializable
@@ -52,8 +53,8 @@ val clothesList = mutableListOf(
         69.99,
         description = "An elegant orange handbag hanging on a door handle, stylish design, compact yet spacious, perfect for daily outings or casual events.",
         reviews = mutableListOf(
-            Review("Alice", "Great bag, very practical!", 4.5),
-            Review("Bob", "Color is a bit flashy but nice.", 4.0)
+            Review("Alice", "Great bag, very practical!", 5, true),
+            Review("Bob", "Color is a bit flashy but nice.", 4, true)
         )
     ),
     Clothes(
@@ -69,8 +70,8 @@ val clothesList = mutableListOf(
         59.99,
         description = "Women’s blue jeans paired with a yellow top, slim fit, casual yet fashionable, ideal for everyday wear or social outings.",
         reviews = mutableListOf(
-            Review("Clara", "Very comfortable jeans.", 5.0),
-            Review("David", "Size runs a bit small.", 3.5)
+            Review("Clara", "Very comfortable jeans.", 5, true),
+            Review("David", "Size runs a bit small.", 3, true)
         )
     ),
     Clothes(
@@ -86,8 +87,8 @@ val clothesList = mutableListOf(
         119.99,
         description = "Black rain boots worn by a woman on the street, sleek design, waterproof, comfortable for autumn walks and rainy days.",
         reviews = mutableListOf(
-            Review("Eva", "Stylish and comfortable.", 4.8),
-            Review("Frank", "A bit heavy for long walks.", 3.8)
+            Review("Eva", "Stylish and comfortable.", 4, true),
+            Review("Frank", "A bit heavy for long walks.", 3, true)
         )
     ),
     Clothes(
@@ -103,8 +104,8 @@ val clothesList = mutableListOf(
         79.99,
         description = "Brown blazer on a man in a suit, formal style, tailored fit, ideal for office, meetings, or professional events.",
         reviews = mutableListOf(
-            Review("George", "Elegant blazer, well tailored.", 5.0),
-            Review("Hannah", "Fabric is a bit stiff.", 4.2)
+            Review("George", "Elegant blazer, well tailored.", 5, true),
+            Review("Hannah", "Fabric is a bit stiff.", 4, true)
         )
     ),
     Clothes(
@@ -120,8 +121,8 @@ val clothesList = mutableListOf(
         39.99,
         description = "Green knitted sweater worn by a woman outside, warm and cozy, casual style, perfect for chilly autumn and winter days.",
         reviews = mutableListOf(
-            Review("Isabel", "Soft and warm.", 4.7),
-            Review("Jack", "Color matches the photo perfectly.", 4.9)
+            Review("Isabel", "Soft and warm.", 4, true),
+            Review("Jack", "Color matches the photo perfectly.", 4, true)
         )
     ),
     Clothes(
@@ -137,8 +138,8 @@ val clothesList = mutableListOf(
         139.99,
         description = "Red high-heeled shoes placed on marble, elegant evening footwear, chic design, suitable for parties, formal events, or stylish occasions.",
         reviews = mutableListOf(
-            Review("Karen", "Very chic but heels are a bit high.", 4.0),
-            Review("Leo", "Perfect for an evening out!", 5.0)
+            Review("Karen", "Very chic but heels are a bit high.", 4, true),
+            Review("Leo", "Perfect for an evening out!", 5, true)
         )
     ),
     Clothes(
@@ -154,8 +155,8 @@ val clothesList = mutableListOf(
         99.99,
         description = "Worn-out adventurer’s backpack hanging from a tree in the forest, rugged, spacious, practical for hiking, camping, or outdoor adventures.",
         reviews = mutableListOf(
-            Review("Mona", "Very practical for hiking.", 4.6),
-            Review("Nate", "A bit small for my gear.", 3.9)
+            Review("Mona", "Very practical for hiking.", 4, true),
+            Review("Nate", "A bit small for my gear.", 3, true)
         )
     ),
     Clothes(
@@ -171,8 +172,8 @@ val clothesList = mutableListOf(
         109.99,
         description = "Stylish autumn bomber jacket on a young man, casual outfit, comfortable fit, suitable for street style, outdoor walks, and seasonal fashion.",
         reviews = mutableListOf(
-            Review("Olivia", "Very trendy.", 4.8),
-            Review("Paul", "Color a bit too dark.", 4.1)
+            Review("Olivia", "Very trendy.", 4, true),
+            Review("Paul", "Color a bit too dark.", 4, true)
         )
     ),
     Clothes(
@@ -188,8 +189,8 @@ val clothesList = mutableListOf(
         39.99,
         description = "Yellow sweatshirt on a man looking right, casual and comfortable, lightweight, ideal for spring, autumn, or everyday relaxed wear.",
         reviews = mutableListOf(
-            Review("Quincy", "Comfortable and light.", 4.5),
-            Review("Rachel", "A bit thin for winter.", 3.9)
+            Review("Quincy", "Comfortable and light.", 4, true),
+            Review("Rachel", "A bit thin for winter.", 3, true)
         )
     ),
     Clothes(
@@ -205,8 +206,8 @@ val clothesList = mutableListOf(
         29.99,
         description = "Pink casual T-shirt hanging on a hanger, soft cotton fabric, perfect for summer days, relaxed style, and daily comfortable outfits.",
         reviews = mutableListOf(
-            Review("Steve", "Soft and pleasant fabric.", 4.7),
-            Review("Tina", "Perfect for summer.", 4.9)
+            Review("Steve", "Soft and pleasant fabric.", 4, true),
+            Review("Tina", "Perfect for summer.", 4, true)
         )
     ),
     Clothes(
@@ -222,8 +223,8 @@ val clothesList = mutableListOf(
         69.99,
         description = "Round blue pendant held in a woman’s hand, elegant accessory, delicate design, suitable for casual or formal occasions, adds charm.",
         reviews = mutableListOf(
-            Review("Uma", "Very pretty pendant.", 5.0),
-            Review("Victor", "A bit light.", 4.3)
+            Review("Uma", "Very pretty pendant.", 5, true),
+            Review("Victor", "A bit light.", 4, true)
         )
     ),
     Clothes(
@@ -239,8 +240,8 @@ val clothesList = mutableListOf(
         69.99,
         description = "Black trousers worn by a man sitting in the forest, tailored fit, versatile fashion piece, perfect for formal or semi-casual wear.",
         reviews = mutableListOf(
-            Review("Wendy", "Well tailored.", 4.6),
-            Review("Xavier", "A bit expensive for the quality.", 3.8)
+            Review("Wendy", "Well tailored.", 4, true),
+            Review("Xavier", "A bit expensive for the quality.", 3, true)
         )
     )
 )
